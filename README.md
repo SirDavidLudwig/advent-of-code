@@ -1,4 +1,4 @@
-# advent-of-code solutions
+# advent-of-code
 
 My environment, tools, and solutions to Advent of Code.
 
@@ -21,4 +21,4 @@ Initialize a puzzle using the `aoc` script. This will download your puzzle input
 
 ## Live Running/Debugging
 
-In VSCode, the Live Update debug task will automatically run your scripts as you make changes. The included `.vscode/settings.json` enables auto-saving with a 250ms delay from typing.
+In VSCode, the "Live Puzzle Input" and "Live Sample Input" debug task will automatically run your scripts as you make changes providing the appropriate puzzle input. The included `.vscode/settings.json` enables auto-saving with a 250ms delay from typing.
