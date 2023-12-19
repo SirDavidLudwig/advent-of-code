@@ -44,13 +44,18 @@ def on_script_updated(signum, stack):
 		raise ModifiedScriptException()
 
 
-def run_solution(path: Path):
+def run_solution(path: Path, puzzle_input: str):
 	try:
 		rel_path = path.absolute().relative_to(Path.cwd())
 		assert rel_path.parts[0] == "solutions"
 	except Exception as e:
 		print("Invalid script path...")
 		return
+	try:
+		sys.stdin.close()
+		sys.stdin = open(rel_path.parent / "input" / puzzle_input)
+	except Exception as e:
+		print("Input file not found:", rel_path.parent / "input" / puzzle_input)
 	try:
 		spec = importlib.util.spec_from_file_location("solution", rel_path)
 		solution = importlib.util.module_from_spec(spec)
@@ -61,6 +66,13 @@ def run_solution(path: Path):
 
 def main():
 	global is_processing
+
+	if 1 < len(sys.argv) < 3:
+		print("Usage: ./watch.py <puzzle|sample> [solution file]")
+		sys.exit(1)
+
+	# puzzle input file name (e.g. puzzle.txt, sample.txt)
+	puzzle_input = sys.argv[1]
 
 	# Signal handling
 	signal.signal(signal.SIGUSR1, on_script_updated)
@@ -73,9 +85,9 @@ def main():
 	inotify_process.start()
 
 	# If given a file, touch it to trigger an inotify event.
-	if len(sys.argv) > 1:
-		script_path.value = sys.argv[1]
-		script_update_time.value = Path(sys.argv[1]).stat().st_mtime
+	if len(sys.argv) > 2:
+		script_path.value = sys.argv[2]
+		script_update_time.value = Path(sys.argv[2]).stat().st_mtime
 
 	last_update_time = 0.0
 	try:
@@ -84,10 +96,10 @@ def main():
 				continue
 			try:
 				t = script_update_time.value
-				path = script_path.value
+				path = Path(script_path.value)
 				is_processing = True
 				os.system("clear")
-				run_solution(Path(path))
+				run_solution(path, puzzle_input)
 				is_processing = False
 				last_update_time = t
 			except ModifiedScriptException:

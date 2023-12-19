@@ -5,11 +5,20 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Live Update",
+			"name": "Live Puzzle Input",
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/watch.py",
-			"args": ["${file}"],
+			"args": ["puzzle.txt", "${file}"],
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
+			"name": "Live Sample Input",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/watch.py",
+			"args": ["sample.txt", "${file}"],
 			"console": "integratedTerminal",
 			"justMyCode": true
 		}

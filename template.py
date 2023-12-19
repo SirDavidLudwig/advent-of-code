@@ -1,6 +1,5 @@
 from aoc import *
 
-inp = read_puzzle("puzzle.txt")
+inp = sys.stdin.read()
 
 print(inp)
-

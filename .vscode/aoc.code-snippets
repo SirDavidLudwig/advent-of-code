@@ -16,8 +16,6 @@
 	// 	"description": "Log output to console"
 	// }
 
-	// Initialization Templates --------------------------------------------------------------------
-
 	"A* Template": {
 		"scope": "python",
 		"prefix": "aoc:astar",

@@ -1,12 +1,12 @@
 from collections import defaultdict, Sequence
 from itertools import combinations, combinations_with_replacement, count, permutations
 import heapq
-import inspect
 # import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 from pqdict import pqdict
-import re
+import regex as re
+import sys
 from typing import Optional, Tuple, Union
 
 # Decorators ---------------------------------------------------------------------------------------
@@ -51,14 +51,6 @@ def debug(maxdepth=None):
 	return decorator
 
 # Reading ------------------------------------------------------------------------------------------
-
-def read_puzzle(name: str, rstrip_newline=True):
-    invoked_from = inspect.stack()[1].filename
-    with open(Path(invoked_from).parent / "input" / name) as f:
-        result = f.read()
-        if rstrip_newline:
-            result = result.rstrip('\n')
-        return result
 
 def rlines(string: str):
     return string.split('\n')
