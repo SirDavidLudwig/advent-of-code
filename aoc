@@ -1,0 +1,45 @@
+#!/bin/sh
+
+if [ $# != 2 ]; then
+    echo "Usage: ./aoc <year> <day>"
+    exit 1
+fi
+
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
+
+if [ -z "$AOC_COOKIE" ]; then
+    echo "Cookie not provided. Fetch from browser devtools and set using:"
+    echo ""
+    echo "  export AOC_COOKIE=\"<aoc cookie>\""
+    echo ""
+    echo "Or store it in a .env file alongside this script:"
+    echo "  echo \"AOC_COOKIE=<aoc cookie>\" > .env"
+    exit 1
+fi
+
+year=$1
+day=$2
+
+day_formatted=$(printf "%02d" $day)
+
+solution_path="solutions/$year/$day_formatted"
+puzzle_path="$solution_path/input/"
+
+mkdir -p "$solution_path/input"
+
+if [ ! -f "$solution_path/part1.py" ]; then
+	cp "template.py" "$solution_path/part1.py"
+fi
+touch "$solution_path/part2.py"
+
+if [ ! -f "$puzzle_path/puzzle.txt" ]; then
+    curl --cookie "$AOC_COOKIE" https://adventofcode.com/$year/day/$day/input -s -o "$puzzle_path/puzzle.txt"
+fi
+touch "$puzzle_path/sample.txt"
+
+code -a "$solution_path/part2.py"
+code -a "$solution_path/part1.py"
+
+less "$puzzle_path/puzzle.txt"
